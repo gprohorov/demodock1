@@ -1,5 +1,5 @@
 #select parent image
-FROM maven:3.6.3-jdk-11
+FROM maven:3.6.3-jdk-11 AS MAVEN_BUILD
 
 #   copy the sourse tree and pom.xml to our new container
 COPY ./ ./
