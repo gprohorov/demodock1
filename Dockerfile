@@ -10,6 +10,7 @@ RUN mvn clean package
 # EXECUTE
 CMD ["java", "jar", "target/demo-0.0.1-SNAPSHOT.jar"]
 
+# -------------------   VERSION 1 ----------------------------------
 
 # docker build -t docker-package-normal-build-demo:1.0-SNAPSHOT .
 #                                                             ^  - this point !!!!!!
