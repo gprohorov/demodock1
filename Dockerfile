@@ -1,10 +1,17 @@
-FROM openjdk:11.0.7-jdk-slim
+#select parent image
+FROM maven:3.6.3-jdk-11
 
-COPY target/demo-0.0.1-SNAPSHOT.jar /demo.jar
+# copy the sourse tree and pom.xml to our new container
+COPY ./ ./
 
-CMD ["java", "-jar", "/demo.jar"]
+# package application code
+RUN mvn clean package
 
-# docker build -t docker-package-only-build-demo:1.0-SNAPSHOT .
+# EXECUTE
+CMD ["java", "jar", "target/demo-0.0.1-SNAPSHOT.jar"]
+
+
+# docker build -t docker-package-normal-build-demo:1.0-SNAPSHOT .
 #                                                             ^  - this point !!!!!!
 #                                                             I    IMPORTANT!!!!!!!
-# docker run -d -p 8080:8080 docker-package-only-build-demo:1.0-SNAPSHOT
+# docker run -d -p 8080:8080 docker-package-normal-build-demo:1.0-SNAPSHOT

@@ -8,6 +8,6 @@ public class HelloController {
 
     @RequestMapping("/hello")
     String getHello(){
-        return "<h3>Hello, Docker!   v1 </h3>";
+        return "<h3>Hello, Docker!   v2 </h3>";
     }
 }
