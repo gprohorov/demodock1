@@ -1,7 +1,7 @@
 #select parent image
 FROM maven:3.6.3-jdk-11
 
-# copy the sourse tree and pom.xml to our new container
+#   copy the sourse tree and pom.xml to our new container
 COPY ./ ./
 
 # package application code
