@@ -11,7 +11,7 @@ pipeline {
         stage('Run') {
             agent { docker 'openjdk:11.0.7-jdk-slim' }
             steps {
-                echo 'Hello, JDK'
+                echo 'Hello, JDK11'
                 sh 'java -jar target/demo-0.0.1-SNAPSHOT.jar'
             }
         }
