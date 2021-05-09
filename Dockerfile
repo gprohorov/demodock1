@@ -1,31 +1,19 @@
-#select parent image
-FROM maven:3.6.3-jdk-11
+# the first stage of our build will use a maven 3.6.3 parent image
+FROM maven:3.6.3-jdk-11 AS MAVEN_BUILD
 
-#   copy the sourse tree and pom.xml to our new container
+# copy the pom and src code to the container
 COPY ./ ./
 
-# package application code
+# package our application code
 RUN mvn clean package
 
-# EXECUTE
-CMD ["java", "jar", "target/demo-0.0.1-SNAPSHOT.jar"]
+# the second stage of our build will use open jdk 11 on as above
+FROM openjdk:11.0.7-jdk-slim
 
+# copy only the artifacts we need from the first stage and discard the rest
+COPY --from=MAVEN_BUILD /target/demo-0.0.1-SNAPSHOT.jar /demo.jar
 
-# docker build -t docker-package-normal-build-demo:1.0-SNAPSHOT .
-#                                                             ^  - this point !!!!!!
-#                                                             I    IMPORTANT!!!!!!!
-# docker run -d -p 8080:8080 docker-package-normal-build-demo:1.0-SNAPSHOT
+# set the startup command to execute the jar
+CMD ["java", "-jar", "/demo.jar"]
 
-# ----------------------------------------------------------------------------
-#FROM openjdk:11.0.7-jdk-slim
-
-#COPY target/demo-0.0.1-SNAPSHOT.jar /demo.jar
-
-#CMD ["java", "-jar", "/demo.jar"]
-
-# docker build -t docker-package-only-build-demo:1.0-SNAPSHOT .
-#                                                             ^  - this point !!!!!!
-#                                                             I    IMPORTANT!!!!!!!
-# docker run -d -p 8080:8080 docker-package-only-build-demo:1.0-SNAPSHOT
-
-
+#  sudo docker build -t docker-package-multistage-build-demo:1.0-SNAPSHOT .
